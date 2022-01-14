@@ -103,3 +103,39 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # 100% 12289.37kB 88.68%  github.com/TykTechnologies/tyk/gateway.copyBody
 # 100% 12289.37kB 88.68%  github.com/TykTechnologies/tyk/gateway.copyRequest
 # 100% 12289.37kB 88.68%  github.com/TykTechnologies/tyk/gateway.nopCloseRequestBody
+#
+# With the changes:
+# (pprof) top -cum
+# Showing nodes accounting for 5.01MB, 66.66% of 7.51MB total
+# Showing top 10 nodes out of 32
+#       flat  flat%   sum%        cum   cum%
+#          0     0%     0%     5.01MB 66.66%  github.com/TykTechnologies/tyk/gateway.(*h2cWrapper).ServeHTTP
+#          0     0%     0%     5.01MB 66.66%  github.com/TykTechnologies/tyk/gateway.(*handleWrapper).ServeHTTP
+#     5.01MB 66.66% 66.66%     5.01MB 66.66%  github.com/TykTechnologies/tyk/gateway.copyBody
+#          0     0% 66.66%     5.01MB 66.66%  github.com/TykTechnologies/tyk/gateway.copyRequest
+#          0     0% 66.66%     5.01MB 66.66%  github.com/TykTechnologies/tyk/gateway.nopCloseRequestBody
+#          0     0% 66.66%     5.01MB 66.66%  golang.org/x/net/http2/h2c.h2cHandler.ServeHTTP
+#          0     0% 66.66%     5.01MB 66.66%  net/http.(*conn).serve
+#          0     0% 66.66%     5.01MB 66.66%  net/http.serverHandler.ServeHTTP
+#          0     0% 66.66%     1.50MB 19.97%  github.com/TykTechnologies/tyk/gateway.DoReload
+#          0     0% 66.66%     1.50MB 19.97%  github.com/TykTechnologies/tyk/gateway.loadApps
+# (pprof)
+#
+# Before the changes:
+# (pprof) top -cum
+# Showing nodes accounting for 12MB, 88.68% of 13.53MB total
+# Showing top 10 nodes out of 32
+#       flat  flat%   sum%        cum   cum%
+#          0     0%     0%    12.52MB 92.49%  github.com/TykTechnologies/tyk/gateway.(*h2cWrapper).ServeHTTP
+#          0     0%     0%    12.52MB 92.49%  github.com/TykTechnologies/tyk/gateway.(*handleWrapper).ServeHTTP
+#          0     0%     0%    12.52MB 92.49%  golang.org/x/net/http2/h2c.h2cHandler.ServeHTTP
+#          0     0%     0%    12.52MB 92.49%  net/http.(*conn).serve
+#          0     0%     0%    12.52MB 92.49%  net/http.serverHandler.ServeHTTP
+#          0     0%     0%       12MB 88.68%  bytes.(*Buffer).ReadFrom
+#          0     0%     0%       12MB 88.68%  bytes.(*Buffer).grow
+#       12MB 88.68% 88.68%       12MB 88.68%  bytes.makeSlice
+#          0     0% 88.68%       12MB 88.68%  github.com/TykTechnologies/tyk/gateway.copyBody
+#          0     0% 88.68%       12MB 88.68%  github.com/TykTechnologies/tyk/gateway.copyRequest
+# (pprof) 
+
+
