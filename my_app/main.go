@@ -2,24 +2,29 @@ package main
 
 import (
 	"fmt"
-	"log"
-
 	"github.com/gofiber/fiber/v2"
+	"io/ioutil"
+	"log"
+	"os"
 )
 
 func main() {
+	// lf := logF()
+	// defer lf.Close()
+	logger := log.New(os.Stderr, "uploads", log.LstdFlags)
+
 	// Fiber instance
 	app := fiber.New(fiber.Config{
 		BodyLimit: 16 * 1024 * 1024, // this is the default limit of 4MB
 	})
 
 	app.Get("/status", func(c *fiber.Ctx) error {
-		log.Println("/status called.")
+		logger.Println("/status called.")
 		return c.SendString("Hi ✋")
 	})
 
 	app.Post("/upload", func(c *fiber.Ctx) error {
-		log.Println("/upload called.")
+		logger.Println("/upload called.")
 
 		// Get first file from form field "document":
 		file, err := c.FormFile("file")
@@ -33,6 +38,19 @@ func main() {
 
 	// Start server
 	listen := "localhost:3121"
-	log.Println("my_app Listening on: ", listen)
-	log.Fatal(app.Listen(listen))
+	logger.Println("my_app Listening on: ", listen)
+	err := app.Listen(listen)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func logF() *os.File {
+	file, err := ioutil.TempFile("/tmp", "uploads-logs")
+	if err != nil {
+		panic(err)
+	}
+	// defer os.Remove(file.Name())
+
+	return file
 }
