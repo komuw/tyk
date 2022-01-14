@@ -70,7 +70,15 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # go tool pprof -base heap_before_upload.out tyk heap_after_first_upload.out
 # go tool pprof -diff_base heap_before_upload.out tyk heap_after_first_upload.out
 # go tool pprof -inuse_objects -base heap_before_upload.out tyk heap_after_first_upload.out
-
+#
+# 3.
+# curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
+# curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
+# curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
+# curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
+# curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
+# curl -s http://localhost:7391/debug/pprof/heap > heap_after_sixth_upload.out
+# go tool pprof tyk heap_after_sixth_upload.out
 
 # some notes about `io.Copy()`
 # - if the reader has a `WriteTo` method it avoids an allocation and a copy.
