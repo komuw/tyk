@@ -97,3 +97,9 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # - if the writer has a `ReadFrom` method it is also faster.
 # https://sourcegraph.com/github.com/golang/go@go1.15.15/-/blob/src/io/io.go?L385-396
 
+#
+# 100% 12817.54kB 92.49%  github.com/TykTechnologies/tyk/gateway.(*h2cWrapper).ServeHTTP
+# 100% 12817.54kB 92.49%  github.com/TykTechnologies/tyk/gateway.(*handleWrapper).ServeHTTP
+# 100% 12289.37kB 88.68%  github.com/TykTechnologies/tyk/gateway.copyBody
+# 100% 12289.37kB 88.68%  github.com/TykTechnologies/tyk/gateway.copyRequest
+# 100% 12289.37kB 88.68%  github.com/TykTechnologies/tyk/gateway.nopCloseRequestBody
