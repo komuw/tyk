@@ -54,7 +54,7 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 #   -alloc_objects    Display allocated object counts
 #
 # amount of memory being used == inuse metrics
-# time spent in GC           == allocations metrics
+# time spent in GC            == allocations metrics
 #
 # 1.
 # curl -s http://localhost:7391/debug/pprof/heap > heap_before_upload.out
@@ -67,3 +67,6 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
 # curl -s http://localhost:7391/debug/pprof/heap > heap_after_first_upload.out
 # go tool pprof tyk heap_after_first_upload.out
+# go tool pprof -base heap_before_upload.out tyk heap_after_first_upload.out
+# go tool pprof -diff_base heap_before_upload.out tyk heap_after_first_upload.out
+# go tool pprof -inuse_objects -base heap_before_upload.out tyk heap_after_first_upload.out
