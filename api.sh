@@ -45,3 +45,6 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # curl -vkL -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/apis
 # curl -vkL -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/apis | grep -i upload_api_with_middleware
 # curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
+
+#
+# curl -s http://localhost:7391/debug/pprof/heap > heap_before_upload.out
