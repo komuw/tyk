@@ -13,6 +13,7 @@ rm -rf tyk tyk.conf
 rm -rf my_first_api.json upload_api_with_middleware.json
 
 docker ps -aq | xargs docker rm -f
+docker volume ls -q | xargs docker volume rm -f
 fuser -k 7391/tcp
 fuser -k 3121/tcp
 
