@@ -146,4 +146,5 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # do
 #    printf "\n\n sending request $i times \n\n"
 #    curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
+#    sleep 3
 # done
