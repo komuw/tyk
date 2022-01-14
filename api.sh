@@ -57,3 +57,8 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # time spent in GC           == allocations metrics
 #
 # curl -s http://localhost:7391/debug/pprof/heap > heap_before_upload.out
+# go tool pprof tyk heap_before_upload.out
+#    top 30
+#    top -cum 30
+#    list <regex>
+
