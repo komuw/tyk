@@ -48,4 +48,12 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 
 # https://jvns.ca/blog/2017/09/24/profiling-go-with-pprof/
 #
+#   -inuse_space      Display in-use memory size
+#   -inuse_objects    Display in-use object counts
+#   -alloc_space      Display allocated memory size
+#   -alloc_objects    Display allocated object counts
+#
+# amount of memory being used == inuse metrics
+# time spent in GC           == allocations metrics
+#
 # curl -s http://localhost:7391/debug/pprof/heap > heap_before_upload.out
