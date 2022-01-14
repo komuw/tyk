@@ -12,6 +12,8 @@ func main() {
 	// lf := logF()
 	// defer lf.Close()
 	logger := log.New(os.Stderr, "uploads", log.LstdFlags)
+	uploadsDir := "/tmp/uploads_relative"
+	makeDirectoryIfNotExists(uploadsDir)
 
 	// Fiber instance
 	app := fiber.New(fiber.Config{
@@ -33,7 +35,7 @@ func main() {
 		}
 		// (uploads_relative) folder must be created before hand:
 		// Save file using a relative path:
-		return c.SaveFile(file, fmt.Sprintf("/tmp/uploads_relative/%s", file.Filename))
+		return c.SaveFile(file, fmt.Sprintf("%s/%s", uploadsDir, file.Filename))
 	})
 
 	// Start server
@@ -53,4 +55,15 @@ func logF() *os.File {
 	// defer os.Remove(file.Name())
 
 	return file
+}
+
+func makeDirectoryIfNotExists(path string) error {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		e := os.Mkdir(path, os.ModeDir|0755)
+		if err != nil {
+			fmt.Println("\n\n\t error: ", e)
+			panic(e)
+		}
+	}
+	return nil
 }
