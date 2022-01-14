@@ -56,9 +56,14 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # amount of memory being used == inuse metrics
 # time spent in GC           == allocations metrics
 #
+# 1.
 # curl -s http://localhost:7391/debug/pprof/heap > heap_before_upload.out
 # go tool pprof tyk heap_before_upload.out
 #    top 30
 #    top -cum 30
 #    list <regex>
-
+#
+# 2.
+# curl -v http://localhost:7391/upload_api_with_middleware/upload -F "file=@my_app/test-5mb.bin"
+# curl -s http://localhost:7391/debug/pprof/heap > heap_after_first_upload.out
+# go tool pprof tyk heap_after_first_upload.out
