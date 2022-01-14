@@ -70,3 +70,10 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 # go tool pprof -base heap_before_upload.out tyk heap_after_first_upload.out
 # go tool pprof -diff_base heap_before_upload.out tyk heap_after_first_upload.out
 # go tool pprof -inuse_objects -base heap_before_upload.out tyk heap_after_first_upload.out
+
+
+# some notes about `io.Copy()`
+# - if the reader has a `WriteTo` method it avoids an allocation and a copy.
+# - if the writer has a `ReadFrom` method it is also faster.
+# https://sourcegraph.com/github.com/golang/go@go1.15.15/-/blob/src/io/io.go?L385-396
+
