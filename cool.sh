@@ -22,6 +22,7 @@ echo '{
   "listen_port": 7391,
   "secret": "changeMe",
   "template_path": "./templates",
+  "middleware_path": "/home/komuw/paidWork/tyk/my_app/middleware",
   "enable_http_profiler": true,
   "storage": {
     "type": "redis",
@@ -30,7 +31,12 @@ echo '{
     "username": "",
     "password": "",
     "database": 0
-  }
+  },
+  "coprocess_options": {
+    "enable_coprocess": true,
+    "coprocess_grpc_server": ""
+  },
+  "enable_jsvm": true
 }' >> tyk.conf
 
 prev_dir=$(pwd)
@@ -38,7 +44,7 @@ cd my_app && go build -o my_app && ./my_app &
 cd "$prev_dir"
 
 docker run -d --rm -p 6379:6379/tcp redis --loglevel verbose
-
+sleep 3
 go build -gcflags="all=-N -l" -o tyk
 
 ./tyk start --conf=tyk.conf

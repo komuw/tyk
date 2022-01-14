@@ -30,6 +30,17 @@ curl -v \
             }
         }
     },
+    "custom_middleware": {
+        "pre": [
+            {
+                "name": "testJSVMData",
+                "path": "/home/komuw/paidWork/tyk/my_app/middleware/injectHeader.js",
+                "require_session": false,
+                "raw_body_only": false
+            }
+        ]
+    },
+    "driver": "otto",
     "proxy": {
         "listen_path": "/upload_api_with_middleware",
         "target_url": "http://localhost:3121",
