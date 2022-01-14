@@ -151,4 +151,8 @@ curl -H "x-tyk-authorization: changeMe" http://localhost:7391/tyk/reload/group
 #
 # curl -s http://localhost:7391/debug/pprof/heap > heap_old_after_fifty_upload.out
 # go tool pprof tyk heap_old_after_fifty_upload.out
+#
+# curl -s http://localhost:7391/debug/pprof/heap > heap_new_after_fifty_upload.out
+# go tool pprof tyk heap_new_after_fifty_upload.out
+
 
