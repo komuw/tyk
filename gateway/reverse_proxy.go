@@ -484,6 +484,14 @@ func cloneHeader(h http.Header) http.Header {
 
 // Hop-by-hop headers. These are removed when sent to the backend.
 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html
+//
+// TODO: (komuw) read more on hop-hop headers and how they should be handled.
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Connection says:
+// "Except for the standard hop-by-hop headers (Keep-Alive, Connection, etc)
+//  any hop-by-hop headers used by the message must be listed in the Connection header,
+//  so that the first proxy knows it has to consume them and not forward them further."
+// Which seems to imply that `Connection`, `Keep-Alive` etc should be exceptions to this consumption behaviour.
+// Look at what the golang `httputil.NewSingleHostReverseProxy` does plus other proxies.
 var hopHeaders = []string{
 	"Connection",
 	"Proxy-Connection", // non-standard but still sent by libcurl and rejected by e.g. google
