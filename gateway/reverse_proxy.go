@@ -1224,15 +1224,23 @@ func (p *ReverseProxy) HandleResponse(rw http.ResponseWriter, res *http.Response
 		res.Header.Del(h)
 	}
 	defer res.Body.Close()
+	fmt.Printf(`
+	HandleResponse.
+	all_headers2: %v
+	`, res.Header)
 
 	// Close connections
 	if config.Global().CloseConnections {
 		res.Header.Set(headers.Connection, "close")
 	} else {
 		// TODO: komuw, should we re-add the header `Connection: keep-alive` here?
-		// res.Header.Set(headers.Connection, "keep-alive")
+		res.Header.Set(headers.Connection, "keep-alive")
 		_ = 90
 	}
+	fmt.Printf(`
+	HandleResponse.
+	all_headers3: %v
+	`, res.Header)
 
 	// Add resource headers
 	if ses != nil {
