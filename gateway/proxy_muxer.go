@@ -410,11 +410,35 @@ func (m *proxyMux) serve() {
 				h: h2c.NewHandler(h, h2s),
 			}
 			addr := config.Global().ListenAddress + ":" + strconv.Itoa(p.port)
+			// idleTimeout := readTimeout
 			p.httpServer = &http.Server{
 				Addr:         addr,
 				ReadTimeout:  readTimeout,
 				WriteTimeout: writeTimeout,
 				Handler:      h,
+				// IdleTimeout:  idleTimeout,
+				ConnState: func(conn net.Conn, state http.ConnState) {
+					localAddr := conn.LocalAddr()
+					remoteAddr := conn.RemoteAddr()
+					now := time.Now().UTC()
+					fmt.Printf(`
+					proxy_muxer.ConnState 
+					now: %s 
+					closeConn; %v 
+					readTimeout: %v
+					idleTimeout: %v
+					localAddr: %v 
+					remoteAddr: %v 
+					state: %v
+					`,
+						now,
+						config.Global().CloseConnections,
+						readTimeout,
+						readTimeout,
+						localAddr,
+						remoteAddr,
+						state)
+				},
 			}
 			if config.Global().CloseConnections {
 				p.httpServer.SetKeepAlivesEnabled(false)

@@ -211,6 +211,13 @@ func TykNewSingleHostReverseProxy(target *url.URL, spec *APISpec, logger *logrus
 			ReadTimeout:    1 * time.Second,
 			WriteTimeout:   1 * time.Second,
 			MaxHeaderBytes: 1 << 20,
+
+			ConnState: func(conn net.Conn, state http.ConnState) {
+				localAddr := conn.LocalAddr()
+				remoteAddr := conn.RemoteAddr()
+				now := time.Now().UTC()
+				fmt.Printf("\n\t reverse_proxy.ConnState \n\tnow: %s \n\treadTimeout: %v \n\tlocalAddr: %v \n\tremoteAddr: %v \n\tstate: %v \n\n", now, 1*time.Second, localAddr, remoteAddr, state)
+			},
 		}
 		allHostsDownURL = "http://" + listener.Addr().String()
 		go func() {
