@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"runtime/debug"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -438,6 +439,13 @@ func (m *proxyMux) serve() {
 						localAddr,
 						remoteAddr,
 						state)
+
+					if state == http.StateClosed {
+						// print stack trace of who closed the connection
+						fmt.Println("============stack===============")
+						debug.PrintStack()
+						fmt.Println("============stack===============\n\n.")
+					}
 				},
 			}
 			if config.Global().CloseConnections {
