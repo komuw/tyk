@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -324,6 +325,8 @@ func (d *VirtualEndpoint) HandleResponse(rw http.ResponseWriter, res *http.Respo
 }
 
 func handleForcedResponse(rw http.ResponseWriter, res *http.Response, ses *user.SessionState, spec *APISpec) {
+	fmt.Printf(`
+	handleForcedResponse called %s`, "")
 	defer res.Body.Close()
 
 	// Close connections

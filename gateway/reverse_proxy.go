@@ -1204,7 +1204,14 @@ func (p *ReverseProxy) HandleResponse(rw http.ResponseWriter, res *http.Response
 
 	// Remove hop-by-hop headers listed in the
 	// "Connection" header of the response.
-	if c := res.Header.Get(headers.Connection); c != "" {
+	c := res.Header.Get(headers.Connection)
+	fmt.Printf(`
+	HandleResponse.
+	connection_header: %v
+	all_headers: %v
+	`,
+		c, res.Header)
+	if c != "" {
 		for _, f := range strings.Split(c, ",") {
 			if f = strings.TrimSpace(f); f != "" {
 				res.Header.Del(f)
@@ -1212,6 +1219,7 @@ func (p *ReverseProxy) HandleResponse(rw http.ResponseWriter, res *http.Response
 		}
 	}
 
+	// TODO: (komuw) we are removing all hopheaders including `Connection: keep-alive`
 	for _, h := range hopHeaders {
 		res.Header.Del(h)
 	}
@@ -1220,6 +1228,10 @@ func (p *ReverseProxy) HandleResponse(rw http.ResponseWriter, res *http.Response
 	// Close connections
 	if config.Global().CloseConnections {
 		res.Header.Set(headers.Connection, "close")
+	} else {
+		// TODO: komuw, should we re-add the header `Connection: keep-alive` here?
+		// res.Header.Set(headers.Connection, "keep-alive")
+		_ = 90
 	}
 
 	// Add resource headers
