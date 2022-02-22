@@ -1242,7 +1242,6 @@ func (p *ReverseProxy) HandleResponse(rw http.ResponseWriter, res *http.Response
 		res.Header.Set(headers.Connection, "close")
 	} else {
 		// TODO: komuw, should we re-add the header `Connection: keep-alive` here?
-		res.Header.Set(headers.Connection, "keep-alive")
 		_ = 90
 	}
 	fmt.Printf(`
@@ -1257,7 +1256,6 @@ func (p *ReverseProxy) HandleResponse(rw http.ResponseWriter, res *http.Response
 		res.Header.Set(headers.XRateLimitLimit, strconv.Itoa(int(quotaMax)))
 		res.Header.Set(headers.XRateLimitRemaining, strconv.Itoa(int(quotaRemaining)))
 		res.Header.Set(headers.XRateLimitReset, strconv.Itoa(int(quotaRenews)))
-		res.Header.Set(headers.Connection, "keep-alive")
 	}
 
 	copyHeader(rw.Header(), res.Header, config.Global().IgnoreCanonicalMIMEHeaderKey)
