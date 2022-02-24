@@ -418,6 +418,9 @@ func (m *proxyMux) serve() {
 				WriteTimeout: writeTimeout,
 				Handler:      h,
 				// IdleTimeout:  idleTimeout,
+				// Golang sends a tcp-keepAlive(not to be confused with http keepAlive) every 15secs by default
+				// https://sourcegraph.com/github.com/golang/go@go1.16.14/-/blob/src/net/dial.go?L14-18
+				// This can be disabled by using a custom listner(`ListenConfig`)
 				ConnState: func(conn net.Conn, state http.ConnState) {
 					localAddr := conn.LocalAddr()
 					remoteAddr := conn.RemoteAddr()
